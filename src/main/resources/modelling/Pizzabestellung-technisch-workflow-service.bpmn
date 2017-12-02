@@ -101,6 +101,11 @@
               <camunda:constraint name="readonly" />
             </camunda:validation>
           </camunda:formField>
+          <camunda:formField id="FormField_PizzaSheetURL" label="Pizza DB" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
           <camunda:formField id="FormField_Zahlung" label="Zahlungsbetrag" type="string" defaultValue="19.90" />
         </camunda:formData>
       </bpmn:extensionElements>
@@ -151,6 +156,11 @@
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="FormField_Price" label="Preis" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="FormField_PizzaSheetURL" label="Pizza DB" type="string">
             <camunda:validation>
               <camunda:constraint name="readonly" />
             </camunda:validation>
@@ -207,6 +217,11 @@
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="FormField_Price" label="Preis" type="string" defaultValue="19.90" />
+          <camunda:formField id="FormField_PizzaSheetURL" label="Pizza DB" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
           <camunda:formField id="FormField_PizzaOK" label="Pizza OK?" type="boolean" defaultValue="true" />
         </camunda:formData>
       </bpmn:extensionElements>
@@ -232,7 +247,41 @@
     <bpmn:endEvent id="EndEvent_0f2nz0a" name="Bestellung zurückgewiesen">
       <bpmn:incoming>SequenceFlow_1wy5f5d</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="Task_02qmufp" name="Bestellung erfassen" camunda:expression="true">
+    <bpmn:serviceTask id="Task_02qmufp" name="Bestellung erfassen">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://hook.integromat.com/ekj7832njnxky5gyu4go9fl7nb2t7qul</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript"><![CDATA[var out = {
+	"Type": execution.getVariable("FormField_Type"),
+	"Size": execution.getVariable("FormField_Size"),
+	"Sauce": execution.getVariable("FormField_Sauce"),
+	"Crust": execution.getVariable("FormField_Crust"),
+	"Topping": execution.getVariable("FormField_Topping"),
+	"FirstName": execution.getVariable("FormField_FirstName"),
+	"LastName": execution.getVariable("FormField_LastName"),
+	"Address": execution.getVariable("FormField_Address"),
+        "Price": execution.getVariable("FormField_Price"),
+        "Status": "Bestellung erfasst",
+        "BusinessKey": execution.getProcessBusinessKey()
+};
+JSON.stringify(out);]]></camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="FormField_PizzaSheetURL">
+              <camunda:script scriptFormat="JavaScript"><![CDATA[var response = JSON.parse(connector.getVariable("response"));
+response.PizzaSheetURL;]]></camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0dkgc73</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0yww7n0</bpmn:outgoing>
     </bpmn:serviceTask>
