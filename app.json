@@ -1,0 +1,8 @@
+{
+  "name": "DigiBPPizza",
+  "description": "DigiBP Showcase: Pizza",
+  "repository": "https://github.com/DigiBP/digibp-pizza",
+  "addons": ["heroku-postgresql:hobby-dev"],
+  "logo": "https://camunda.com/img/camunda/icon.png",
+  "keywords": ["camunda", "FHNW"]
+}

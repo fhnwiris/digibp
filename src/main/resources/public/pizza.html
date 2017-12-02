@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pizza</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-light navbar-expand-md">
+            <div class="container"><a class="navbar-brand" href="#">PIZZA Inc.</a>
+                <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"></button>
+                <div class="collapse navbar-collapse" id="navcol-1"></div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <h2 class="text-center">Deine <strong>PIZZA</strong> </h2>
+        <form action="https://hook.integromat.com/ow2af2599c32l8suruenquez95ei8u2x" method="post">
+            <div class="form-group">
+                <h6>Weche Pizza soll es ein?</h6>
+                <select class="form-control" name="Type">
+                    <option value="Margherita" selected="">Margherita</option>
+                    <option value="Prosciutto">Prosciutto</option>
+                    <option value="Hawaii">Hawaii</option>
+                    <option value="Funghi">Funghi</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <h6>Grösse? </h6>
+                <select class="form-control" name="Size">
+                    <option value="klein" selected="">klein</option>
+                    <option value="mittel">mittel</option>
+                    <option value="gross">gross</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <h6>Zusätzlicher Belag? </h6>
+                <textarea class="form-control" name="Topping"></textarea>
+            </div>
+            <div class="form-group">
+                <h6>Was für einen Rand hättest du gerne? </h6>
+                <select class="form-control" name="Crust">
+                    <option value="fein" selected="">fein</option>
+                    <option value="dick">dick</option>
+                    <option value="gefuellt">gefüllt</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <h6>Weche Sauce soll es sein?</h6>
+                <select class="form-control" name="Sauce">
+                    <option value="Tomate" selected="">Tomate</option>
+                    <option value="BBQ">BBQ</option>
+                    <option value="Creme Fraiche">Crème Fraîche</option>
+                    <option value="Pesto">Pesto</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><span>Vorname </span></div>
+                    <input class="form-control" type="text" name="FirstName">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><span>Nachname </span></div>
+                    <input class="form-control" type="text" name="LastName">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><span>Lieferadresse </span></div>
+                    <input class="form-control" type="text" name="Address">
+                </div>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-light" type="submit"> <i class="fa fa-send-o"></i></button>
+            </div>
+        </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
