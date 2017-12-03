@@ -96,6 +96,11 @@
               <camunda:constraint name="readonly" />
             </camunda:validation>
           </camunda:formField>
+          <camunda:formField id="FormField_Email" label="E-Mail" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
           <camunda:formField id="FormField_Price" label="Preis" type="string">
             <camunda:validation>
               <camunda:constraint name="readonly" />
@@ -151,6 +156,11 @@
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="FormField_Address" label="Lieferadresse" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="FormField_Email" label="E-Mail" type="string">
             <camunda:validation>
               <camunda:constraint name="readonly" />
             </camunda:validation>
@@ -216,6 +226,11 @@
               <camunda:constraint name="readonly" />
             </camunda:validation>
           </camunda:formField>
+          <camunda:formField id="FormField_Email" label="E-Mail" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
           <camunda:formField id="FormField_Price" label="Preis" type="string" defaultValue="19.90" />
           <camunda:formField id="FormField_PizzaSheetURL" label="Pizza DB" type="string">
             <camunda:validation>
@@ -239,6 +254,7 @@
           <camunda:formField id="FormField_FirstName" label="Vorname" type="string" />
           <camunda:formField id="FormField_LastName" label="Nachname" type="string" />
           <camunda:formField id="FormField_Address" label="Lieferadresse" type="string" />
+          <camunda:formField id="FormField_Email" label="E-Mail" type="string" />
           <camunda:formField id="FormField_Price" label="Preis" type="string" defaultValue="19.90" />
         </camunda:formData>
       </bpmn:extensionElements>
@@ -268,6 +284,7 @@
 	"FirstName": execution.getVariable("FormField_FirstName"),
 	"LastName": execution.getVariable("FormField_LastName"),
 	"Address": execution.getVariable("FormField_Address"),
+  "Email": execution.getVariable("FormField_Email"),
         "Price": execution.getVariable("FormField_Price"),
         "Status": "Bestellung erfasst",
         "BusinessKey": execution.getProcessBusinessKey()
