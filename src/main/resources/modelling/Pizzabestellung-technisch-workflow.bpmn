@@ -98,11 +98,6 @@
               <camunda:constraint name="readonly" />
             </camunda:validation>
           </camunda:formField>
-          <camunda:formField id="FormField_PizzaSheetURL" label="Pizza DB" type="string">
-            <camunda:validation>
-              <camunda:constraint name="readonly" />
-            </camunda:validation>
-          </camunda:formField>
           <camunda:formField id="FormField_Zahlung" label="Zahlungsbetrag" type="string" defaultValue="19.90" />
         </camunda:formData>
       </bpmn:extensionElements>
@@ -191,11 +186,6 @@
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="FormField_Price" label="Preis" type="string" defaultValue="19.90" />
-          <camunda:formField id="FormField_PizzaSheetURL" label="Pizza DB" type="string">
-            <camunda:validation>
-              <camunda:constraint name="readonly" />
-            </camunda:validation>
-          </camunda:formField>
           <camunda:formField id="FormField_PizzaOK" label="Pizza OK?" type="boolean" defaultValue="true" />
         </camunda:formData>
       </bpmn:extensionElements>
@@ -251,11 +241,6 @@
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="FormField_Price" label="Preis" type="string">
-            <camunda:validation>
-              <camunda:constraint name="readonly" />
-            </camunda:validation>
-          </camunda:formField>
-          <camunda:formField id="FormField_PizzaSheetURL" label="Pizza DB" type="string">
             <camunda:validation>
               <camunda:constraint name="readonly" />
             </camunda:validation>
