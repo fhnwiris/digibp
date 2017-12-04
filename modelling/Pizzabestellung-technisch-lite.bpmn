@@ -186,7 +186,7 @@
       <bpmndi:BPMNShape id="IntermediateCatchEvent_05q6fsd_di" bpmnElement="IntermediateThrowEvent_01kskq6">
         <dc:Bounds x="640" y="422" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="579" y="397" width="63" height="24" />
+          <dc:Bounds x="665" y="198" width="63" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0fkk2ys_di" bpmnElement="SequenceFlow_0fkk2ys">
