@@ -424,7 +424,7 @@ response.PizzaSheetURL;]]></camunda:script>
     <bpmn:sequenceFlow id="SequenceFlow_0ix242g" sourceRef="Task_1kb57kf" targetRef="ExclusiveGateway_01csm3v" />
     <bpmn:sequenceFlow id="SequenceFlow_121mj09" sourceRef="ExclusiveGateway_01csm3v" targetRef="EndEvent_0aim4h3" />
     <bpmn:sequenceFlow id="SequenceFlow_0j1cxsd" sourceRef="BoundaryEvent_0a43pzj" targetRef="Task_0t1gbbh" />
-    <bpmn:serviceTask id="Task_1kb57kf" name="Zahlungseingang erfassen">
+    <bpmn:serviceTask id="Task_1kb57kf" name="Zahlungseingang erfassen" camunda:asyncBefore="true">
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
@@ -452,7 +452,7 @@ response.PizzaSheetURL;]]></camunda:script>
       </bpmn:conditionalEventDefinition>
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0ybp31z" sourceRef="Task_0t1gbbh" targetRef="ExclusiveGateway_01csm3v" />
-    <bpmn:sendTask id="Task_0t1gbbh" name="Rechnung versenden">
+    <bpmn:sendTask id="Task_0t1gbbh" name="Rechnung versenden" camunda:asyncBefore="true">
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:inputOutput>
