@@ -5,7 +5,7 @@
     <bpmn:participant id="Participant_1ihkml2" name="Kundin" />
     <bpmn:messageFlow id="MessageFlow_16xl7fo" name="Bestellung" sourceRef="Participant_1ihkml2" targetRef="StartEvent_1vbh2fm" />
     <bpmn:messageFlow id="MessageFlow_14g1pjr" sourceRef="Participant_1ihkml2" targetRef="IntermediateThrowEvent_01kskq6" />
-    <bpmn:messageFlow id="MessageFlow_1iocj7j" sourceRef="Task_0565poz" targetRef="Participant_1ihkml2" />
+    <bpmn:messageFlow id="MessageFlow_1iocj7j" name="Status-&#10;update" sourceRef="Task_0565poz" targetRef="Participant_1ihkml2" />
     <bpmn:messageFlow id="MessageFlow_1u6vkma" name="Geld" sourceRef="Participant_1ihkml2" targetRef="Task_1b6qpi7" />
     <bpmn:messageFlow id="MessageFlow_1358pwn" name="Rechnung" sourceRef="Task_1b6qpi7" targetRef="Participant_1ihkml2" />
     <bpmn:messageFlow id="MessageFlow_0z28vv8" name="Pizza" sourceRef="Task_1nkbpfm" targetRef="Participant_1ihkml2" />
@@ -16,13 +16,13 @@
       <bpmn:lane id="Lane_0jpgzwf" name="Pizzabäcker">
         <bpmn:flowNodeRef>IntermediateThrowEvent_01kskq6</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ExclusiveGateway_0mxni64</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_0565poz</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>StartEvent_1vbh2fm</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_0f2nz0a</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ExclusiveGateway_10tlwzf</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_0mqsmq2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_0yy2fqm</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_1lurqob</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_0565poz</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_0mqsmq2</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_1mr8drm" name="Kurier">
         <bpmn:flowNodeRef>Task_1b6qpi7</bpmn:flowNodeRef>
@@ -41,11 +41,7 @@
       <bpmn:outgoing>SequenceFlow_0lyq4m6</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0guqx0e</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:sendTask id="Task_0565poz" name="Kundin beruhigen" camunda:expression="true">
-      <bpmn:incoming>SequenceFlow_0fkk2ys</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1iizstv</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:userTask id="Task_1b6qpi7" name="Geld kassieren">
+    <bpmn:userTask id="Task_1b6qpi7" name="Geld kassieren" camunda:candidateGroups="courier">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="FormField_Type" label="Pizza" type="string">
@@ -115,7 +111,6 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FormField_PizzaOK}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0guqx0e" sourceRef="ExclusiveGateway_0mxni64" targetRef="Task_1lurqob" />
-    <bpmn:sequenceFlow id="SequenceFlow_0fvai2y" sourceRef="Task_1nkbpfm" targetRef="Task_1b6qpi7" />
     <bpmn:sequenceFlow id="SequenceFlow_067en5p" sourceRef="Task_1lurqob" targetRef="Task_1nkbpfm" />
     <bpmn:sequenceFlow id="SequenceFlow_14pqvzk" sourceRef="Task_0yy2fqm" targetRef="ExclusiveGateway_10tlwzf" />
     <bpmn:sequenceFlow id="SequenceFlow_0g6osa6" name="Nein" sourceRef="ExclusiveGateway_10tlwzf" targetRef="Task_0mqsmq2">
@@ -153,11 +148,7 @@
       <bpmn:outgoing>SequenceFlow_0zvk8g3</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0g6osa6</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sendTask id="Task_0mqsmq2" name="Bestellung zurückweisen" camunda:expression="true">
-      <bpmn:incoming>SequenceFlow_0g6osa6</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1c7urjy</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:userTask id="Task_0yy2fqm" name="Bestellung prüfen">
+    <bpmn:userTask id="Task_0yy2fqm" name="Bestellung prüfen" camunda:candidateGroups="pizzaiolo">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="FormField_Type" label="Pizza" type="string" />
@@ -192,7 +183,7 @@
       <bpmn:incoming>SequenceFlow_0dkgc73</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_14pqvzk</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Task_1lurqob" name="Pizza backen">
+    <bpmn:userTask id="Task_1lurqob" name="Pizza backen" camunda:candidateGroups="pizzaiolo">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="FormField_Type" label="Pizza" type="string">
@@ -250,6 +241,15 @@
       <bpmn:incoming>SequenceFlow_0guqx0e</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_067en5p</bpmn:outgoing>
     </bpmn:userTask>
+    <bpmn:manualTask id="Task_0565poz" name="Kundin beruhigen">
+      <bpmn:incoming>SequenceFlow_0fkk2ys</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1iizstv</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:manualTask id="Task_0mqsmq2" name="Bestellung zurückweisen">
+      <bpmn:incoming>SequenceFlow_0g6osa6</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1c7urjy</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0fvai2y" sourceRef="Task_1nkbpfm" targetRef="Task_1b6qpi7" />
   </bpmn:process>
   <bpmn:message id="Message_1gzw16n" name="Message_2imhk67" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -266,24 +266,17 @@
           <dc:Bounds x="186" y="512" width="50" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0fvai2y_di" bpmnElement="SequenceFlow_0fvai2y">
-        <di:waypoint xsi:type="dc:Point" x="1114" y="305" />
-        <di:waypoint xsi:type="dc:Point" x="1155" y="305" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1090" y="280" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="IntermediateCatchEvent_05q6fsd_di" bpmnElement="IntermediateThrowEvent_01kskq6">
         <dc:Bounds x="733" y="416" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="672" y="391" width="63" height="24" />
+          <dc:Bounds x="761" y="194" width="63" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0fkk2ys_di" bpmnElement="SequenceFlow_0fkk2ys">
         <di:waypoint xsi:type="dc:Point" x="769" y="434" />
         <di:waypoint xsi:type="dc:Point" x="836" y="434" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="758" y="409" width="90" height="20" />
+          <dc:Bounds x="757.5" y="409" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0dkgc73_di" bpmnElement="SequenceFlow_0dkgc73">
@@ -330,7 +323,7 @@
         <di:waypoint xsi:type="dc:Point" x="751" y="497" />
         <di:waypoint xsi:type="dc:Point" x="751" y="452" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="774" y="472" width="90" height="20" />
+          <dc:Bounds x="773.5" y="472" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_1dp6uc6_di" bpmnElement="EndEvent_0aim4h3">
@@ -346,7 +339,7 @@
         <di:waypoint xsi:type="dc:Point" x="211" y="169" />
         <di:waypoint xsi:type="dc:Point" x="211" y="476" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="223" y="387.2273641851107" width="50" height="12" />
+          <dc:Bounds x="218" y="193" width="50" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MessageFlow_14g1pjr_di" bpmnElement="MessageFlow_14g1pjr">
@@ -360,7 +353,7 @@
         <di:waypoint xsi:type="dc:Point" x="912" y="394" />
         <di:waypoint xsi:type="dc:Point" x="912" y="169" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="882" y="272" width="90" height="20" />
+          <dc:Bounds x="921" y="196" width="35" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MessageFlow_1u6vkma_di" bpmnElement="MessageFlow_1u6vkma">
@@ -412,7 +405,7 @@
         <di:waypoint xsi:type="dc:Point" x="516" y="633" />
         <di:waypoint xsi:type="dc:Point" x="574" y="633" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="485" y="530.2727272727273" width="22" height="12" />
+          <dc:Bounds x="485" y="530" width="22" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_0f2nz0a_di" bpmnElement="EndEvent_0f2nz0a">
@@ -431,9 +424,6 @@
       <bpmndi:BPMNShape id="UserTask_0hbwqnh_di" bpmnElement="Task_0yy2fqm">
         <dc:Bounds x="314" y="454" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="SendTask_0701ki8_di" bpmnElement="Task_0565poz">
-        <dc:Bounds x="836" y="394" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="UserTask_0k6e8c0_di" bpmnElement="Task_1lurqob">
         <dc:Bounds x="836" y="517" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -450,9 +440,6 @@
           <dc:Bounds x="594" y="375" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="SendTask_0ck682c_di" bpmnElement="Task_0mqsmq2">
-        <dc:Bounds x="574" y="593" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0cwrk3z_di" bpmnElement="SequenceFlow_0cwrk3z">
         <di:waypoint xsi:type="dc:Point" x="1255" y="305" />
         <di:waypoint xsi:type="dc:Point" x="1275" y="305" />
@@ -460,6 +447,19 @@
         <di:waypoint xsi:type="dc:Point" x="1301" y="305" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1290" y="299" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ManualTask_1wo4i92_di" bpmnElement="Task_0565poz">
+        <dc:Bounds x="836" y="394" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ManualTask_15y0bpz_di" bpmnElement="Task_0mqsmq2">
+        <dc:Bounds x="574" y="593" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0fvai2y_di" bpmnElement="SequenceFlow_0fvai2y">
+        <di:waypoint xsi:type="dc:Point" x="1114" y="305" />
+        <di:waypoint xsi:type="dc:Point" x="1155" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1090" y="280" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

@@ -4,7 +4,7 @@ camunda:
       id: demo
       password: demo
     filter:
-      create: All tasks
+      create: All Tasks
 
 spring:
   datasource:
