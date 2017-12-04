@@ -32,13 +32,11 @@
         <bpmn:flowNodeRef>Task_0xq59s6</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_0mqsmq2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_02qmufp</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>IntermediateThrowEvent_01kskq6</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_0zytdrq</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_1kb57kf</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ExclusiveGateway_1a7l9ek</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_0t1gbbh</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_0aim4h3</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ExclusiveGateway_01csm3v</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_0t1gbbh</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_1kb57kf</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:userTask id="Task_1b6qpi7" name="Geld kassieren" camunda:candidateGroups="courier">
@@ -100,11 +98,10 @@
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="FormField_Payment" label="Zahlungsbetrag" type="string" defaultValue="19.90" />
-          <camunda:formField id="FormField_Receipt" label="Rechnung gewünscht?" type="boolean" defaultValue="false" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0fvai2y</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_04sbjmj</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1j2wo2q</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:manualTask id="Task_1nkbpfm" name="Pizza liefern">
       <bpmn:incoming>SequenceFlow_1wkzke1</bpmn:incoming>
@@ -112,7 +109,6 @@
     </bpmn:manualTask>
     <bpmn:sequenceFlow id="SequenceFlow_0lyq4m6" sourceRef="ExclusiveGateway_0mxni64" targetRef="Task_0zytdrq" />
     <bpmn:sequenceFlow id="SequenceFlow_0fvai2y" sourceRef="Task_1nkbpfm" targetRef="Task_1b6qpi7" />
-    <bpmn:sequenceFlow id="SequenceFlow_04sbjmj" sourceRef="Task_1b6qpi7" targetRef="Task_1kb57kf" />
     <bpmn:sequenceFlow id="SequenceFlow_1wkzke1" sourceRef="ExclusiveGateway_08gmlgp" targetRef="Task_1nkbpfm" />
     <bpmn:sequenceFlow id="SequenceFlow_16ls7bm" sourceRef="ExclusiveGateway_08gmlgp" targetRef="Task_0xq59s6" />
     <bpmn:sequenceFlow id="SequenceFlow_0g6osa6" name="Nein" sourceRef="ExclusiveGateway_10tlwzf" targetRef="Task_0mqsmq2">
@@ -413,39 +409,15 @@ response.PizzaSheetURL;]]></camunda:script>
       <bpmn:outgoing>SequenceFlow_0if8mkg</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_121mj09" sourceRef="ExclusiveGateway_01csm3v" targetRef="EndEvent_0aim4h3" />
-    <bpmn:serviceTask id="Task_1kb57kf" name="Zahlungseingang erfassen">
-      <bpmn:extensionElements>
-        <camunda:connector>
-          <camunda:inputOutput>
-            <camunda:inputParameter name="url">https://hook.integromat.com/9mxjc1xax92elb4r28vzkklojo9pl3iu</camunda:inputParameter>
-            <camunda:inputParameter name="method">PUT</camunda:inputParameter>
-            <camunda:inputParameter name="headers">
-              <camunda:map>
-                <camunda:entry key="Content-Type">application/json</camunda:entry>
-              </camunda:map>
-            </camunda:inputParameter>
-            <camunda:inputParameter name="payload">
-              <camunda:script scriptFormat="JavaScript" resource="integration/ZahlungErfassenRequest.js" />
-            </camunda:inputParameter>
-          </camunda:inputOutput>
-          <camunda:connectorId>http-connector</camunda:connectorId>
-        </camunda:connector>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_04sbjmj</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_13flaiv</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_1a7l9ek" name="Rechnung&#10;erwünscht?">
-      <bpmn:incoming>SequenceFlow_13flaiv</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_15mk9am</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_1lkygge</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_13flaiv" sourceRef="Task_1kb57kf" targetRef="ExclusiveGateway_1a7l9ek" />
-    <bpmn:sequenceFlow id="SequenceFlow_15mk9am" name="Ja" sourceRef="ExclusiveGateway_1a7l9ek" targetRef="Task_0t1gbbh">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${FormField_Receipt}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1lkygge" name="Nein" sourceRef="ExclusiveGateway_1a7l9ek" targetRef="ExclusiveGateway_01csm3v">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!FormField_Receipt}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="EndEvent_0aim4h3" name="Ende">
+      <bpmn:incoming>SequenceFlow_121mj09</bpmn:incoming>
+      <bpmn:terminateEventDefinition />
+    </bpmn:endEvent>
+    <bpmn:parallelGateway id="ExclusiveGateway_01csm3v">
+      <bpmn:incoming>SequenceFlow_0zdl022</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0my92ho</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_121mj09</bpmn:outgoing>
+    </bpmn:parallelGateway>
     <bpmn:sendTask id="Task_0t1gbbh" name="Rechnung versenden">
       <bpmn:extensionElements>
         <camunda:connector>
@@ -467,29 +439,42 @@ JSON.stringify(out);]]></camunda:script>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
       </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_15mk9am</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1p9z7x9</bpmn:outgoing>
+      <bpmn:incoming>SequenceFlow_1j2wo2q</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0j1jj90</bpmn:outgoing>
     </bpmn:sendTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1p9z7x9" sourceRef="Task_0t1gbbh" targetRef="ExclusiveGateway_01csm3v" />
-    <bpmn:endEvent id="EndEvent_0aim4h3" name="Ende">
-      <bpmn:incoming>SequenceFlow_121mj09</bpmn:incoming>
-      <bpmn:terminateEventDefinition />
-    </bpmn:endEvent>
-    <bpmn:parallelGateway id="ExclusiveGateway_01csm3v">
-      <bpmn:incoming>SequenceFlow_0zdl022</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_1lkygge</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_1p9z7x9</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_121mj09</bpmn:outgoing>
-    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1j2wo2q" sourceRef="Task_1b6qpi7" targetRef="Task_0t1gbbh" />
+    <bpmn:serviceTask id="Task_1kb57kf" name="Zahlungseingang erfassen">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://hook.integromat.com/9mxjc1xax92elb4r28vzkklojo9pl3iu</camunda:inputParameter>
+            <camunda:inputParameter name="method">PUT</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript" resource="integration/ZahlungErfassenRequest.js" />
+            </camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0j1jj90</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0my92ho</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0j1jj90" sourceRef="Task_0t1gbbh" targetRef="Task_1kb57kf" />
+    <bpmn:sequenceFlow id="SequenceFlow_0my92ho" sourceRef="Task_1kb57kf" targetRef="ExclusiveGateway_01csm3v" />
   </bpmn:process>
   <bpmn:message id="Message_1gzw16n" name="Message_PizzaOrderComplain" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1i2z28f">
       <bpmndi:BPMNShape id="Participant_0n7fx83_di" bpmnElement="Participant_0n7fx83">
-        <dc:Bounds x="119" y="242" width="1441" height="524" />
+        <dc:Bounds x="119" y="242" width="1411" height="524" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_0jpgzwf_di" bpmnElement="Lane_0jpgzwf">
-        <dc:Bounds x="149" y="369" width="1411" height="135" />
+        <dc:Bounds x="149" y="369" width="1381" height="135" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="StartEvent_1vbh2fm_di" bpmnElement="StartEvent_1vbh2fm">
         <dc:Bounds x="191" y="546" width="36" height="36" />
@@ -576,13 +561,13 @@ JSON.stringify(out);]]></camunda:script>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_1mr8drm_di" bpmnElement="Lane_1mr8drm">
-        <dc:Bounds x="149" y="242" width="1411" height="127" />
+        <dc:Bounds x="149" y="242" width="1381" height="127" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="MessageFlow_16xl7fo_di" bpmnElement="MessageFlow_16xl7fo">
-        <di:waypoint xsi:type="dc:Point" x="211" y="169" />
+        <di:waypoint xsi:type="dc:Point" x="209" y="169" />
         <di:waypoint xsi:type="dc:Point" x="209" y="546" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="215.53975605525764" y="199.15784103837308" width="50" height="12" />
+          <dc:Bounds x="153.80944339781732" y="198.83984014971892" width="50" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MessageFlow_14g1pjr_di" bpmnElement="MessageFlow_14g1pjr">
@@ -607,10 +592,10 @@ JSON.stringify(out);]]></camunda:script>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MessageFlow_1358pwn_di" bpmnElement="MessageFlow_1358pwn">
-        <di:waypoint xsi:type="dc:Point" x="1397" y="524" />
-        <di:waypoint xsi:type="dc:Point" x="1397" y="169" />
+        <di:waypoint xsi:type="dc:Point" x="1275" y="524" />
+        <di:waypoint xsi:type="dc:Point" x="1275" y="169" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1403" y="202.00000000000006" width="50" height="12" />
+          <dc:Bounds x="1281" y="202.00000000000006" width="50" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MessageFlow_0z28vv8_di" bpmnElement="MessageFlow_0z28vv8">
@@ -621,7 +606,7 @@ JSON.stringify(out);]]></camunda:script>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Participant_11lvybw_di" bpmnElement="Participant_1ihkml2">
-        <dc:Bounds x="121" y="109" width="1319" height="60" />
+        <dc:Bounds x="121" y="109" width="1410" height="60" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_14pqvzk_di" bpmnElement="SequenceFlow_14pqvzk">
         <di:waypoint xsi:type="dc:Point" x="499" y="429" />
@@ -736,18 +721,11 @@ JSON.stringify(out);]]></camunda:script>
           <dc:Bounds x="1198" y="679" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_04sbjmj_di" bpmnElement="SequenceFlow_04sbjmj">
-        <di:waypoint xsi:type="dc:Point" x="1205" y="345" />
-        <di:waypoint xsi:type="dc:Point" x="1205" y="524" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1175" y="428.5" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_0w97p3c_di" bpmnElement="Task_1kb57kf">
-        <dc:Bounds x="1155" y="524" width="100" height="80" />
+        <dc:Bounds x="1347" y="524" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_0d0idce_di" bpmnElement="Lane_0d0idce">
-        <dc:Bounds x="149" y="504" width="1411" height="262" />
+        <dc:Bounds x="149" y="504" width="1381" height="262" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ManualTask_0or4klj_di" bpmnElement="Task_1nkbpfm">
         <dc:Bounds x="1014" y="265" width="100" height="80" />
@@ -773,38 +751,24 @@ JSON.stringify(out);]]></camunda:script>
         <dc:Bounds x="612" y="524" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SendTask_1aa5ko9_di" bpmnElement="Task_0t1gbbh">
-        <dc:Bounds x="1347" y="524" width="100" height="80" />
+        <dc:Bounds x="1225" y="524" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ExclusiveGateway_1a7l9ek_di" bpmnElement="ExclusiveGateway_1a7l9ek" isMarkerVisible="true">
-        <dc:Bounds x="1276.15" y="539" width="50" height="50" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1j2wo2q_di" bpmnElement="SequenceFlow_1j2wo2q">
+        <di:waypoint xsi:type="dc:Point" x="1205" y="345" />
+        <di:waypoint xsi:type="dc:Point" x="1205" y="564" />
+        <di:waypoint xsi:type="dc:Point" x="1225" y="564" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1272" y="512" width="57" height="24" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_13flaiv_di" bpmnElement="SequenceFlow_13flaiv">
-        <di:waypoint xsi:type="dc:Point" x="1255" y="564" />
-        <di:waypoint xsi:type="dc:Point" x="1276" y="564" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1265.5" y="543" width="0" height="12" />
+          <dc:Bounds x="1220" y="448.5" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_15mk9am_di" bpmnElement="SequenceFlow_15mk9am">
-        <di:waypoint xsi:type="dc:Point" x="1326" y="564" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0j1jj90_di" bpmnElement="SequenceFlow_0j1jj90">
+        <di:waypoint xsi:type="dc:Point" x="1325" y="564" />
         <di:waypoint xsi:type="dc:Point" x="1347" y="564" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1331" y="543" width="12" height="12" />
+          <dc:Bounds x="1336" y="543" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1lkygge_di" bpmnElement="SequenceFlow_1lkygge">
-        <di:waypoint xsi:type="dc:Point" x="1301" y="589" />
-        <di:waypoint xsi:type="dc:Point" x="1301" y="639" />
-        <di:waypoint xsi:type="dc:Point" x="1383" y="639" />
-        <di:waypoint xsi:type="dc:Point" x="1383" y="689" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1304.5" y="597.7567567567568" width="22" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1p9z7x9_di" bpmnElement="SequenceFlow_1p9z7x9">
+      <bpmndi:BPMNEdge id="SequenceFlow_0my92ho_di" bpmnElement="SequenceFlow_0my92ho">
         <di:waypoint xsi:type="dc:Point" x="1397" y="604" />
         <di:waypoint xsi:type="dc:Point" x="1397" y="675" />
         <bpmndi:BPMNLabel>
