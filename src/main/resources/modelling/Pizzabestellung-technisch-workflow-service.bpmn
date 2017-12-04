@@ -442,7 +442,7 @@ response.PizzaSheetURL;]]></camunda:script>
       <bpmn:outgoing>SequenceFlow_0if8mkg</bpmn:outgoing>
     </bpmn:serviceTask>
   </bpmn:process>
-  <bpmn:message id="Message_1gzw16n" name="Message_2imhk67" />
+  <bpmn:message id="Message_1gzw16n" name="Message_PizzaOrderComplain" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1i2z28f">
       <bpmndi:BPMNShape id="Participant_0n7fx83_di" bpmnElement="Participant_0n7fx83">
