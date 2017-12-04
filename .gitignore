@@ -23,3 +23,23 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+### Composer ###
+composer.phar
+vendor/
+!/composer.lock
+
+### Git ###
+*.orig
+
+### VisualStudioCode ###
+.vscode/
+.history
+
+### Visual Paradigm ###
+.vpprefdata/
+*.vpp~*
+*.vpp.*
+
+### Environment Variables ###
+*.env
