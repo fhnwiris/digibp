@@ -137,10 +137,7 @@ public class UserGroupGenerator {
             filterProperties.put("refresh", true);
             Filter myTasksFilter = filterService.newTaskFilter().setName("Group and My Tasks");
 
-            TaskQuery query = taskService.createTaskQuery().taskAssigneeExpression("${currentUser()}");
-            myTasksFilter.setProperties(filterProperties).setOwner("demo").setQuery(query);
-            filterService.saveFilter(myTasksFilter);
-            query = taskService.createTaskQuery().taskCandidateGroupInExpression("${currentUserGroups()}").taskUnassigned();
+            TaskQuery query = taskService.createTaskQuery().or().taskAssigneeExpression("${currentUser()}").taskCandidateGroupInExpression("${currentUserGroups()}");
             myTasksFilter.setProperties(filterProperties).setOwner("demo").setQuery(query);
             filterService.saveFilter(myTasksFilter);
 

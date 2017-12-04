@@ -97,7 +97,7 @@
               <camunda:constraint name="readonly" />
             </camunda:validation>
           </camunda:formField>
-          <camunda:formField id="FormField_Zahlung" label="Zahlungsbetrag" type="string" defaultValue="19.90" />
+          <camunda:formField id="FormField_Payment" label="Zahlungsbetrag" type="string" defaultValue="19.90" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0fvai2y</bpmn:incoming>
@@ -237,7 +237,27 @@
     <bpmn:sequenceFlow id="SequenceFlow_14pqvzk" sourceRef="Task_0yy2fqm" targetRef="ExclusiveGateway_10tlwzf" />
     <bpmn:sequenceFlow id="SequenceFlow_0fkk2ys" sourceRef="IntermediateThrowEvent_01kskq6" targetRef="Task_0565poz" />
     <bpmn:sequenceFlow id="SequenceFlow_1iizstv" sourceRef="Task_0565poz" targetRef="IntermediateThrowEvent_01kskq6" />
-    <bpmn:sendTask id="Task_0565poz" name="Kundin beruhigen" camunda:expression="true">
+    <bpmn:sendTask id="Task_0565poz" name="Kundin beruhigen">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://hook.integromat.com/nw87qzrc6k1ad5mshpjpvx89xjupmt2a</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript"><![CDATA[var out = {
+    "BusinessKey": execution.getProcessBusinessKey()
+};
+JSON.stringify(out);]]></camunda:script>
+            </camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0fkk2ys</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1iizstv</bpmn:outgoing>
     </bpmn:sendTask>
@@ -313,7 +333,27 @@
       <bpmn:incoming>SequenceFlow_16ls7bm</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0zdl022</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sendTask id="Task_0mqsmq2" name="Bestellung zurückweisen" camunda:expression="true">
+    <bpmn:sendTask id="Task_0mqsmq2" name="Bestellung zurückweisen">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">https://hook.integromat.com/y4nekp86c7jlp5mexr1ei54g9ob2yvmx</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript"><![CDATA[var out = {
+    "BusinessKey": execution.getProcessBusinessKey()
+};
+JSON.stringify(out);]]></camunda:script>
+            </camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0g6osa6</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1c7urjy</bpmn:outgoing>
     </bpmn:sendTask>
